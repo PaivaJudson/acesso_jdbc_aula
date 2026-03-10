@@ -1,21 +1,54 @@
 package org.example;
 
 import org.example.db.DB;
+import org.example.db.DbException;
 
 import java.sql.*;
 
 
 public class Main {
+
     static void main() {
 
+
+
+    }
+
+
+
+
+    static void atualizar() {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            conn = DB.getConnection();
+            String query = "UPDATE Seller "
+                    + "SET BaseSalary = BaseSalary + ? "
+                    + "WHERE DepartmentID = ?";
+            preparedStatement = conn.prepareStatement(query);
+
+            preparedStatement.setDouble(1, 200.0);
+            preparedStatement.setInt(2, 2);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            DB.closeStatement(preparedStatement);
+            DB.closeConnection();
+        }
+    }
+
+    static void inserir() {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
-        try{
+        try {
             connection = DB.getConnection();
 
-            String str =  "INSERT INTO seller(Name, Email, BirthDate, BaseSalary, DepartmentId)"
-                        + "VALUES" + "(?, ?, ?, ?, ?)";
+            String str = "INSERT INTO seller(Name, Email, BirthDate, BaseSalary, DepartmentId)"
+                    + "VALUES" + "(?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(str);
 
             preparedStatement.setString(1, "Judson Paiva");
@@ -28,18 +61,11 @@ public class Main {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             DB.closeStatement(preparedStatement);
             DB.closeConnection();
         }
     }
-
-
-
-
-
-
-
 
     static void insercao() {
         Connection connection = null;
