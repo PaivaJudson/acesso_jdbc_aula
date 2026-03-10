@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.db.DB;
 import org.example.db.DbException;
+import org.example.db.DbIntegrityException;
 
 import java.sql.*;
 
@@ -10,11 +11,27 @@ public class Main {
 
     static void main() {
 
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            conn = DB.getConnection();
+            String query = "DELETE FROM Department "
+                    + "WHERE Id = ?";
+            preparedStatement = conn.prepareStatement(query);
+
+            preparedStatement.setInt(1, 2);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            DB.closeStatement(preparedStatement);
+            DB.closeConnection();
+        }
 
 
     }
-
-
 
 
     static void atualizar() {
@@ -33,7 +50,7 @@ public class Main {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new DbException(e.getMessage());
+            throw new DbIntegrityException(e.getMessage());
         } finally {
             DB.closeStatement(preparedStatement);
             DB.closeConnection();
