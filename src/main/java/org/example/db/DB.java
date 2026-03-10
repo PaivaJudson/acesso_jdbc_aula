@@ -18,8 +18,8 @@ public class DB {
             try {
                 Properties properties = loadProperties();
                 String url = properties.getProperty("db.url");
-                String username = properties.getProperty("db.usuario");
-                String password = properties.getProperty("db.senha");
+                String username = properties.getProperty("db.username");
+                String password = properties.getProperty("db.password");
                 connection = DriverManager.getConnection(url, username, password);
             } catch (SQLException e) {
                 throw new DbException(e.getMessage());
