@@ -26,7 +26,6 @@ public class Main {
 
             int linhas = preparedStatement.executeUpdate();
 
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
@@ -34,7 +33,6 @@ public class Main {
             DB.closeConnection();
         }
     }
-
 
 
 
